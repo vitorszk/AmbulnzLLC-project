@@ -1,9 +1,28 @@
 import { Request, Response } from "express"
 import { ApiBusiness } from "../business/ApiBusiness"
 import { getOrderInputDTO } from "../model/Order"
+import { PizzaInputDTO } from "../model/Pizza"
 
 export class ApiController {
-    async getMenu(res: Response) {
+    async createPizza(req: Request, res: Response) {
+        try {
+            const input: PizzaInputDTO = {
+                name: req.body.name,
+                price: req.body.price,
+                ingredients: req.body.ingredients
+            }
+
+            const apiBusiness = new ApiBusiness();
+            const result = await apiBusiness.createPizza(input)
+
+            res.status(200).send({message: "Novo sabor de pizza adicionado!", result, input})
+        } catch (err: unknown) {
+            if (err instanceof Error) 
+                return res.status(400).send(err.message)
+        }
+    }
+
+    async getMenu(req: Request, res: Response) {
         try {
             const apiBusiness = new ApiBusiness()
             const result = await apiBusiness.getMenu()
@@ -15,7 +34,7 @@ export class ApiController {
         }
     }
 
-    async getOrders(res: Response) {
+    async getOrders(req: Request, res: Response) {
         try {
             const apiBusiness = new ApiBusiness()
             const result = await apiBusiness.getOrders()
