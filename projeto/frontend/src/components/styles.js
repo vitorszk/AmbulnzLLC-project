@@ -10,6 +10,15 @@ export const Title = styled.div`
     .cart_icon {
         transform: scale(1.8);
     }
+
+    h1 {
+        cursor: pointer;
+        transition: ease-in-out 300ms;
+
+        &:hover {
+            transform: scale(1.2);
+        }
+    }
 `
 
 export const CardsContainer = styled.div`

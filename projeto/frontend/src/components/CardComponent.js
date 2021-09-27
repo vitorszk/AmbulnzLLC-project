@@ -8,12 +8,47 @@ import { GlobalStateContext } from "../global/GlobalStateContext"
 import PIZZA from "../assets/PIZZA.jpg"
 
 const CardComponent = () => {
-  const { pizzas, setPizzas, getMenu } = useContext(GlobalStateContext)
+  const { pizzas, cart, setCart, getMenu } = useContext(GlobalStateContext)
 
   useEffect(() => {
     getMenu()
   }, [])
 
+  const addToCart = (productToAdd) => {
+    const index = cart.findIndex((productInCart) => {
+      if (productInCart.id === productToAdd.id) {
+        return true
+      } else {
+        return false
+      }
+    })
+
+    if (index === -1) {
+
+      const productQuantity = {
+        ...productToAdd,
+        quantity: 1
+      }
+
+      const cartCopy = [...cart, productQuantity]
+      setCart(cartCopy)
+    } else {
+      const cartCopy = cart.map((productInCart) => {
+        if(productInCart.id === productToAdd.id) {
+          return {
+            ...productInCart,
+            quantity: productInCart.quantity + 1
+          }
+        } else {
+          return productInCart
+        }
+      })
+
+      setCart(cartCopy)
+    }
+
+    alert("Item added to Order Sumary")
+  }
 
   return (
     (pizzas.map((pizza) => {
@@ -28,15 +63,15 @@ const CardComponent = () => {
             />
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
-                {pizza.name}
+                {pizza.name} {`$${pizza.price}`}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                {pizza.ingredients}
+                <b>INGREDIENTS:</b> <br />{pizza.ingredients}
               </Typography>
             </CardContent>
           </CardActionArea>
           <CardActions>
-            <Button size="small" color="primary">
+            <Button size="small" color="primary" onClick={() => addToCart(pizza)}>
               Add to Cart
             </Button>
           </CardActions>

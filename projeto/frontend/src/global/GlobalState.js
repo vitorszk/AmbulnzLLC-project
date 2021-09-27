@@ -4,6 +4,7 @@ import axios from "axios"
 
 export const GlobalState = (props) => {
     const [pizzas, setPizzas] = useState([])
+    const [cart, setCart] = useState([])
 
     const getMenu = () => {
         axios.get(`${process.env.REACT_APP_BASE_URL}/api/pizzas`)
@@ -15,6 +16,7 @@ export const GlobalState = (props) => {
         value={
             {
                 pizzas, setPizzas,
+                cart, setCart,
                 getMenu
 
             }
