@@ -11,6 +11,8 @@ app.use(cors())
 
 app.use("/api", apiRouter)
 
-app.listen(3003, () => {
-   console.log("Server running on port 3003")
+const PORT = process.env.PORT || 3003
+
+app.listen(PORT, () => {
+   console.log(`Server running at ${PORT}`)
 })
