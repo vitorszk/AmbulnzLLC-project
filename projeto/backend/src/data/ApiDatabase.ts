@@ -1,4 +1,5 @@
 import { getOrderInputDTO, Order } from "../model/Order";
+import { PizzaInputDTO } from "../model/Pizza";
 import { BaseDatabase } from "./BaseDatabase";
 
 
@@ -8,6 +9,11 @@ export class ApiDatabase extends BaseDatabase {
     private static ORDERS_TABLE_NAME = "order_ambulnz"
     private static ORDER_ITEMS_TABLE_NAME = "order_item_ambulnz"
 
+    async createPizza(input: PizzaInputDTO) {
+        await this.getConnection()
+        .insert(input)
+        .into(ApiDatabase.PIZZA_TABLE_NAME)
+    }
 
     async getMenu() {
         return await this.getConnection()
